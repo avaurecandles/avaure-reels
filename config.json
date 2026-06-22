@@ -1,5 +1,5 @@
 {
-  "video_dir": "variations",
+  "video_dir": ".",
   "videos": [
     "v1_original.mp4",
     "v2_zoom102.mp4",
