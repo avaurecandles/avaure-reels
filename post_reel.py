@@ -129,12 +129,17 @@ def main():
     if not captions:
         sys.exit("ERROR: captions.txt is empty")
 
-    # Date-based rotation: advances by one each calendar day, needs no saved
-    # state (works the same on a cloud runner that resets its disk every run).
-    day = dt.date.today().toordinal()
-    item = items[day % len(items)]
-    caption = captions[(day * 3) % len(captions)]  # *3 so caption/video pairing varies
+    # Post each video ONCE, in order, then stop. Trial reels must be unique —
+    # never repost the same clip. Progress is tracked in state.json, which the
+    # GitHub workflow commits back to the repo so it persists between runs.
     state = load_json(STATE_FILE, required=False)
+    idx = state.get("next_index", 0)
+    if idx >= len(items):
+        print(f"Nothing to post: all {len(items)} videos have been used. "
+              f"Add more videos to config.json and they'll continue from here.")
+        return
+    item = items[idx]
+    caption = captions[idx % len(captions)]
 
     stamp = dt.datetime.now().strftime("%Y-%m-%d %H:%M")
     print(f"[{stamp}] Plan ({mode} mode):")
@@ -196,6 +201,7 @@ def main():
                       data={"creation_id": creation_id, "access_token": token})
     print(f"  PUBLISHED ✓  media id: {result.get('id')}")
 
+    state["next_index"] = idx + 1          # advance so each video posts only once
     state["last_posted"] = stamp
     state["last_media_id"] = result.get("id")
     save_json(STATE_FILE, state)
