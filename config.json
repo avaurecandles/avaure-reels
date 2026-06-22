@@ -1,13 +1,12 @@
 {
-  "video_dir": ".",
-  "videos": [
-    "v1_original.mp4",
-    "v2_zoom102.mp4",
-    "v3_fast.mp4",
-    "v4_slow.mp4",
-    "v5_bright.mp4",
-    "v6_warm.mp4",
-    "v7_zoomfast.mp4"
+  "video_urls": [
+    "https://raw.githubusercontent.com/avaurecandles/avaure-reels/main/v1_original.mp4",
+    "https://raw.githubusercontent.com/avaurecandles/avaure-reels/main/v2_zoom102.mp4",
+    "https://raw.githubusercontent.com/avaurecandles/avaure-reels/main/v3_fast.mp4",
+    "https://raw.githubusercontent.com/avaurecandles/avaure-reels/main/v4_slow.mp4",
+    "https://raw.githubusercontent.com/avaurecandles/avaure-reels/main/v5_bright.mp4",
+    "https://raw.githubusercontent.com/avaurecandles/avaure-reels/main/v6_warm.mp4",
+    "https://raw.githubusercontent.com/avaurecandles/avaure-reels/main/v7_zoomfast.mp4"
   ],
   "trial_reel": true,
   "graduation_strategy": "SS_PERFORMANCE",
