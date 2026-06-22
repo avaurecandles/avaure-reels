@@ -96,11 +96,14 @@ def main():
         sys.exit("ERROR: missing access_token / ig_user_id (set in config.json or "
                  "IG_ACCESS_TOKEN / IG_USER_ID env vars).")
     version = cfg.get("graph_version", "v21.0")
+    # "graph.facebook.com" (Facebook-login flow) or "graph.instagram.com"
+    # (Instagram-login flow). The Instagram-login flow is simpler to set up.
+    graph_host = cfg.get("graph_host", "graph.facebook.com")
     share_to_feed = cfg.get("share_to_feed", True)
     trial_reel = cfg.get("trial_reel", True)
     graduation = cfg.get("graduation_strategy", "SS_PERFORMANCE")  # or "MANUAL"
 
-    graph = f"https://graph.facebook.com/{version}"
+    graph = f"https://{graph_host}/{version}"
     rupload = f"https://rupload.facebook.com/ig-api-upload/{version}"
 
     # ---- decide source mode -------------------------------------------------
