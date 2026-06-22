@@ -13,5 +13,6 @@
   "trial_reel": true,
   "graduation_strategy": "SS_PERFORMANCE",
   "share_to_feed": true,
-  "graph_version": "v21.0"
+  "graph_version": "v21.0",
+   "graph_host": "graph.instagram.com"
 }
