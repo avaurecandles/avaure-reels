@@ -8,7 +8,7 @@
     "https://raw.githubusercontent.com/avaurecandles/avaure-reels/main/reel6.mp4"
   ],
 
-  "trial_reel": false,
+  "trial_reel": true,
   "graduation_strategy": "SS_PERFORMANCE",
   "share_to_feed": true,
   "graph_version": "v21.0",
