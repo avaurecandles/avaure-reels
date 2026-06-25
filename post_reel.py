@@ -129,15 +129,12 @@ def main():
     if not captions:
         sys.exit("ERROR: captions.txt is empty")
 
-    # Post each video ONCE, in order, then stop. Trial reels must be unique —
-    # never repost the same clip. Progress is tracked in state.json, which the
-    # GitHub workflow commits back to the repo so it persists between runs.
+    # Rotate through the videos forever, in order. An ever-increasing counter is
+    # kept in state.json (committed back by the workflow); the modulo wraps it
+    # back to the start after the last video, so it loops 1->2->...->N->1->...
     state = load_json(STATE_FILE, required=False)
-    idx = state.get("next_index", 0)
-    if idx >= len(items):
-        print(f"Nothing to post: all {len(items)} videos have been used. "
-              f"Add more videos to config.json and they'll continue from here.")
-        return
+    seq = state.get("next_index", 0)         # ever-increasing post counter
+    idx = seq % len(items)                    # wraps around -> rotates forever
     item = items[idx]
     caption = captions[idx % len(captions)]
 
