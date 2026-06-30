@@ -129,11 +129,18 @@ def main():
     if not captions:
         sys.exit("ERROR: captions.txt is empty")
 
-    # Rotate through the videos forever, in order. An ever-increasing counter is
-    # kept in state.json (committed back by the workflow); the modulo wraps it
+    # Rotate through the videos forever, in order. The modulo wraps the counter
     # back to the start after the last video, so it loops 1->2->...->N->1->...
+    # Preferred source of the counter is the POST_INDEX env var, which GitHub
+    # Actions sets to the built-in run number (auto-increments every run). This
+    # makes rotation reliable even if state.json can't be committed back to the
+    # repo. Local runs (no POST_INDEX) fall back to the state.json counter.
     state = load_json(STATE_FILE, required=False)
-    seq = state.get("next_index", 0)         # ever-increasing post counter
+    env_idx = os.environ.get("POST_INDEX")
+    if env_idx is not None and env_idx.strip().lstrip("-").isdigit():
+        seq = int(env_idx)
+    else:
+        seq = state.get("next_index", 0)     # ever-increasing post counter
     idx = seq % len(items)                    # wraps around -> rotates forever
     item = items[idx]
     caption = captions[idx % len(captions)]
